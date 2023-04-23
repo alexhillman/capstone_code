@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from git import Repo
 import RPi.GPIO as GPIO
 import io
 import sys
@@ -11,6 +10,8 @@ import copy
 import string
 import smbus
 import os
+import requests
+import base64
 
 # also import the library for the Atlas Scientific produced I2C sensors
 from AtlasI2C import(AtlasI2C)
@@ -30,18 +31,33 @@ dataFile = 0
 dirName = "/home/pi/Desktop/experiments/23042prototype/"
 numReads = 0
 
-# github setup
-full_local_path = "/home/pi/Desktop/repos/23042prototype/"
-username = "alexhillman"
-password = "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"
-remote   = f"https://{username}:{password}@github.com/fmalrs/23042prototype.git"
-repo = Repo(full_local_path)
 
-# only run this line once to setup
-#Repo.clone_from(remote, full_local_path)
+
+
 
 
 BTN_STATE = STOP # initial state of system is no experiment
+
+
+def push_repo():
+    githubAPIURL = "https://api.github.com/repos/fmalrs/23042prototype/contents/experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv"
+    githubToken = "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"
+
+    with open("/home/pi/Desktop/experiments/23042prototype/experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv", "rb") as f:
+    # Encoding "my-local-image.jpg" to base64 format
+    encodedData = base64.b64encode(f.read())
+
+    headers = {
+        "Authorization": f'''Bearer {githubToken}''',
+        "Content-type": "application/vnd.github+json"
+    }
+    data = {
+        "message": "My commit message", # Put your commit message here.
+        "content": encodedData.decode("utf-8")
+    }
+
+    r = requests.put(githubAPIURL, headers=headers, json=data)
+    
 
 # print all EZO class devices in terminal (supplier provided function)
 def print_devices(device_list, device):
