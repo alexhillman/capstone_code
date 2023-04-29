@@ -6,8 +6,11 @@ import base64
 githubAPIURL = "https://api.github.com/repos/fmalrs/23042prototype/contents/experiments/experiment_TEST_SCRIPT/data.csv"
 # Replace "bracketcounters" with your username, replace "test-repo" with your repository name and replace "new-image.png" with the filename you want to upload from local to GitHub.
 
-# Paste your API token here
-githubToken = "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"
+# change access.txt to update github access file
+with open('access.txt', 'r') as file:
+    githubToken = file.read()
+    
+
 
 
 with open("data.csv", "rb") as f:
