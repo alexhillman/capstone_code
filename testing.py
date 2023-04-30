@@ -43,6 +43,7 @@ BUTTON = 24
 
 
 def button_callback(channel):
+    global LED_STATE
     if(LED_STATE == R):
         LED_STATE = G
         GPIO.output(RED,   GPIO.LOW)
