@@ -29,10 +29,10 @@ import base64
 START = 1
 STOP = 0
 
-global R = 1
-global G = 2
-global B = 3
-global LED_STATE = 1
+R = 1
+G = 2
+B = 3
+LED_STATE = 1
 
 # global variables and GPIO pins
 RED = 17
