@@ -23,17 +23,17 @@ import requests
 import base64
 
 # Atlas Scientific I2C control library (included in same directory)
-from AtlasI2C import(AtlasI2C)
+#from AtlasI2C import(AtlasI2C)
 
 # state machine states
 START = 1
 STOP = 0
 
 # global variables and GPIO pins
-RED = 11
-GREEN = 13
-BLUE = 15
-BUTTON = 18
+RED = 17
+GREEN = 27
+BLUE = 22
+BUTTON = 24
 
 
 
@@ -64,6 +64,22 @@ def main():
     GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback)
     
     while True:
-      time.sleep(1)
+        print("RED")
+        GPIO.output(RED,   GPIO.HIGH)
+        GPIO.output(GREEN, GPIO.LOW)
+        GPIO.output(BLUE,  GPIO.LOW)
+        time.sleep(2)
+      
+        print("GREEN")
+        GPIO.output(RED,   GPIO.LOW)
+        GPIO.output(GREEN, GPIO.HIGH)
+        GPIO.output(BLUE,  GPIO.LOW)
+        time.sleep(2)
+    
+        print("BLUE")
+        GPIO.output(RED,   GPIO.LOW)
+        GPIO.output(GREEN, GPIO.LOW)
+        GPIO.output(BLUE,  GPIO.HIGH)
+        time.sleep(2)
     
     GPIO.cleanup()
