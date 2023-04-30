@@ -56,9 +56,9 @@ def button_callback(channel):
         GPIO.output(BLUE,  GPIO.HIGH)
     elif(LED_STATE == B):
         LED_STATE = R
-        GPIO.output(RED,   GPIO.HIGH)
+        GPIO.output(RED,   GPIO.LOW)
         GPIO.output(GREEN, GPIO.LOW)
-        GPIO.output(BLUE,  GPIO.LOW)
+        GPIO.output(BLUE,  GPIO.HIGH)
 
 # main program loop
 def main():
