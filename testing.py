@@ -27,6 +27,43 @@ from AtlasI2C import(AtlasI2C)
 
 # state machine states
 START = 1
-STOP = 1
+STOP = 0
 
-# 
+# global variables and GPIO pins
+RED = 11
+GREEN = 13
+BLUE = 15
+BUTTON = 18
+
+
+
+def button_callback(channel):
+    print("Button Pushed\n")
+
+
+# main program loop
+def main():
+    global dataFile
+    global numReads
+    #########################################
+    # INITIAL SETUP
+    #########################################
+    
+    # initialize GPIO inputs and outputs
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+
+    # setup LEDs as outputs
+    GPIO.setup(RED, GPIO.OUT)
+    GPIO.setup(GREEN, GPIO.OUT)
+    GPIO.setup(BLUE, GPIO.OUT)
+    
+    # set up push button as input with initial value to be pulled low (off)
+    GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    # set up the push button event as the falling edge of the voltage (releasing push button)
+    GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback)
+    
+    while True:
+      time.sleep(1)
+    
+    GPIO.cleanup()
