@@ -29,6 +29,11 @@ import base64
 START = 1
 STOP = 0
 
+R = 1
+G = 2
+B = 3
+LED_STATE = 1
+
 # global variables and GPIO pins
 RED = 17
 GREEN = 27
@@ -38,8 +43,21 @@ BUTTON = 24
 
 
 def button_callback(channel):
-    print("Button Pushed\n")
-
+    if(LED_STATE == R):
+        LED_STATE = G
+        GPIO.output(RED,   GPIO.LOW)
+        GPIO.output(GREEN, GPIO.HIGH)
+        GPIO.output(BLUE,  GPIO.LOW)
+    elif(LED_STATE == G):
+        LED_STATE = B
+        GPIO.output(RED,   GPIO.LOW)
+        GPIO.output(GREEN, GPIO.LOW)
+        GPIO.output(BLUE,  GPIO.HIGH)
+    elif(LED_STATE == B):
+        LED_STATE = R
+        GPIO.output(RED,   GPIO.HIGH)
+        GPIO.output(GREEN, GPIO.LOW)
+        GPIO.output(BLUE,  GPIO.LOW)
 
 # main program loop
 def main():
@@ -63,24 +81,12 @@ def main():
     # set up the push button event as the falling edge of the voltage (releasing push button)
     GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback, bouncetime = 300)
     
-    while True:
-        print("RED")
-        GPIO.output(RED,   GPIO.HIGH)
-        GPIO.output(GREEN, GPIO.LOW)
-        GPIO.output(BLUE,  GPIO.LOW)
-        time.sleep(2)
-      
-        print("GREEN")
-        GPIO.output(RED,   GPIO.LOW)
-        GPIO.output(GREEN, GPIO.HIGH)
-        GPIO.output(BLUE,  GPIO.LOW)
-        time.sleep(2)
+    GPIO.output(RED,   GPIO.HIGH)
+    GPIO.output(GREEN, GPIO.LOW)
+    GPIO.output(BLUE,  GPIO.LOW)
     
-        print("BLUE")
-        GPIO.output(RED,   GPIO.LOW)
-        GPIO.output(GREEN, GPIO.LOW)
-        GPIO.output(BLUE,  GPIO.HIGH)
-        time.sleep(2)
+    while True:
+        time.sleep(0.1)
     
     GPIO.cleanup()
 
