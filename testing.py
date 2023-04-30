@@ -61,7 +61,7 @@ def main():
     # set up push button as input with initial value to be pulled low (off)
     GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     # set up the push button event as the falling edge of the voltage (releasing push button)
-    GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback)
+    GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback, bouncetime = 300)
     
     while True:
         print("RED")
