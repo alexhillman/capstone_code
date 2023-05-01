@@ -30,15 +30,28 @@ from AtlasI2C import(AtlasI2C)
 
 # state machine states
 LED_STATE = "NONE"
+experimentTime = 0
+dataFile = 0
+repoName = "/home/pi/Desktop/TSAR-main/"
+dirName = 0
+numReads = 0
 
 def button_callback():
     global LED_STATE
-    print("you pushed the button in state " + LED_STATE)
+    global experiment_time
+    global dataFile
+    global repoName
+    global dirName
+    
+    print("you pushed the button in state " + LED_STATE + "\n")
     time.sleep(0.3)
     
     if(LED_STATE == "RED"):
         time.sleep(5)
     elif(LED_STATE == "BLUE"):
+        experimentTime = time.time()
+        dirName = repoName + "experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/"
+        os.mkdir(dirName)
         LED_STATE = "GREEN"
     elif(LED_STATE == "GREEN"):
         LED_STATE = "BLUE"
@@ -229,7 +242,7 @@ def main():
                 ethanol = int(abs((mcp.read_adc(0) - 475) * 1.4))
                 ammonia = int(abs((mcp.read_adc(1) - 45) * 10))
                 
-                print("Read the following values:")
+                print("Read the following values:\n")
                 print("pH: " + pH)
                 print("o2: " + o2 + "%")
                 print("humidity: " + humidity + "%")
