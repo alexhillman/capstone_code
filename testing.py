@@ -76,6 +76,7 @@ def main():
     global red
     global blue
     global green
+    global LED_STATE
     
     #########################################
     # INITIAL SETUP
