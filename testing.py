@@ -11,7 +11,6 @@
 # general import statements
 from gpiozero import Button
 from gpiozero import LED
-from git import repo
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import io
