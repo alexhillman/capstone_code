@@ -148,7 +148,7 @@ def main():
     while True:
         if(LED_STATE == "BLUE"):
             time.sleep(1)
-        elif(LED_STATE == "GREEN" || LED_STATE == "PURPLE"):
+        elif(LED_STATE == "GREEN" or LED_STATE == "PURPLE"):
     
     GPIO.cleanup()
 
