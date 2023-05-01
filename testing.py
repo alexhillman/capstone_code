@@ -37,11 +37,11 @@ def button_callback():
     if(LED_STATE == "RED"):
         time.sleep(5)
     elif(LED_STATE == "BLUE"):
-        LED_STATE == "GREEN"
+        LED_STATE = "GREEN"
     elif(LED_STATE == "GREEN"):
-        LED_STATE == "BLUE"
+        LED_STATE = "BLUE"
     elif(LED_STATE == "PURPLE"):
-        LED_STATE == "BLUE"
+        LED_STATE = "BLUE"
     
         
         
