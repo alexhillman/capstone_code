@@ -24,6 +24,8 @@ import smbus
 import os
 import requests
 import base64
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # Atlas Scientific I2C control library (included in same directory)
 from AtlasI2C import(AtlasI2C)
@@ -33,8 +35,11 @@ LED_STATE = "NONE"
 experimentTime = 0
 dataFile = 0
 repoName = "/home/pi/Desktop/TSAR-main/"
+credentialFile = "/home/pi/Desktop/scripts/access.txt"
 dirName = 0
 numReads = 0
+githubToken = 0
+githubAPIURL = 0
 
 def button_callback():
     global LED_STATE
@@ -71,10 +76,6 @@ def button_callback():
         LED_STATE = "BLUE"
     
         
-        
-        
-
-        
 def get_devices():
     device = AtlasI2C()
     device_address_list = device.list_i2c_devices()
@@ -107,6 +108,9 @@ def main():
     global sensTime
     global dataFile
     global dirName
+    global numReads
+    global githubToken
+    global githubAPIURL
     
     #########################################
     # INITIAL SETUP
@@ -175,11 +179,19 @@ def main():
     
    
     time_index=0
-    time_interval = datetime.timedelta(seconds=30)   # HOW OFTEN TO READ DATA
+    time_interval = datetime.timedelta(seconds=15)   # HOW OFTEN TO READ DATA
     time_start = datetime.datetime.now()
     time_next = time_start + time_index * time_interval
 
+    
+    # Read Github API Token
+    f=open('access.txt')
+    lines=f.readlines()
+    githubToken = lines[1]
+    
+    ###################################################
     # can start an experiment
+    ###################################################
     while True:
         if(LED_STATE == "BLUE"):
             red.off()
@@ -267,15 +279,71 @@ def main():
                 print("ethanol: " + str(ethanol) + " ppm")
                 print("ammonia: " + str(ammonia) + " ppm")
                 
+
                 # write the read data to the data file
-                dataFile = open(dirName+"data.csv", "a")
-                dataFile.write("{:.2f},".format(sensTime) + o2 + "," + pH + "," + humidity + "," + temperature + "," + str(ammonia) + "," + str(ethanol) + "\n")
-                dataFile.close()
+                if(i < 10):
+                    dataFile = open(dirName+"data.csv", "a")
+                    dataFile.write("{:.1f},".format(sensTime) + o2 + "," + pH + "," + humidity + "," + temperature + "," + str(ammonia) + "," + str(ethanol) + "\n")
+                    dataFile.close()
                 
+                
+                
+                    # update the plot
+                    df = pd.read_csv(dirName + 'data.csv')
+                    df=df.astype(float)
+
+                    ax = df.plot(x='Time', y=['o2', 'ph'])
+                    ax.set_ylabel("Concentration (PPM)")
+                    plt.title("Current TSAR Activity")
+                    plt.savefig(repoName + 'graph.png')
+                
+                
+                numReads += 1
+                if(numReads == 12):
+                    numReads = 0
+                    
+                    # push data to gitHub
+                    
+                    # PUSHING THE CSV DATA
+                    ###########################################################################################
+                    githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv"
+                    
+                    with open(dirName + "data.csv", "rb") as f:
+                        # Encoding "data.csv" to base64 format
+                        encodedData = base64.b64encode(f.read())
+
+                        headers = {
+                            "Authorization": f'''Bearer {githubToken}''',
+                            "Content-type": "application/vnd.github+json"
+                        }
+                        data = {
+                            "message": "Experiment Data Upload", # Put your commit message here.
+                            "content": encodedData.decode("utf-8")
+                        }
+
+                        r = requests.put(githubAPIURL, headers=headers, json=data)
+                    ###########################################################################################
+                    # PUSHING THE IMAGE
+                    ###########################################################################################
+                    githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/graph.png"
+                    
+                    with open(repoName + "graph.png", "rb") as f:
+                        # Encoding "data.csv" to base64 format
+                        encodedData = base64.b64encode(f.read())
+
+                        headers = {
+                            "Authorization": f'''Bearer {githubToken}''',
+                            "Content-type": "application/vnd.github+json"
+                        }
+                        data = {
+                            "message": "Experiment Data Upload", # Put your commit message here.
+                            "content": encodedData.decode("utf-8")
+                        }
+
+                        r = requests.put(githubAPIURL, headers=headers, json=data)
+                    ###########################################################################################                
             time.sleep(1)
             
-            
-    
 
 if __name__ == '__main__':
     main()
