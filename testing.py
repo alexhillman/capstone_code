@@ -61,7 +61,7 @@ def button_callback():
         
         # create a new data file inside the new directory and generate column names
         dataFile = open(dirName+"data.csv", "w")
-        dataFile.write("Time (s), Oxygen (%), pH, Temperature (C), Ammonia (ppm), Ethanol (ppm)\n")
+        dataFile.write("Time(s),Oxygen(%),pH,Temperature(C),Ammonia(ppm),Ethanol(ppm)\n")
         dataFile.close()
         
         print("Starting Experiment @ "
@@ -292,7 +292,7 @@ def main():
                     df = pd.read_csv(dirName + 'data.csv', header=0)
                     df=df.astype(float)
 
-                    ax = df.plot(x='Time (s)', y=['Oxygen (%)', 'pH'])
+                    ax = df.plot(x='Time(s)', y=['Oxygen(%)', 'pH'])
                     ax.set_ylabel("Concentration (% and pH)")
                     plt.title("Current TSAR Activity")
                     plt.savefig(repoName + 'graph.png')
