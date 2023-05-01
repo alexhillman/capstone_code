@@ -27,5 +27,4 @@ with open("data.csv", "rb") as f:
     }
 
     r = requests.put(githubAPIURL, headers=headers, json=data)
-    print(r.text) # Printing the response
                     
