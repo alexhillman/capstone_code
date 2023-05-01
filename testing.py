@@ -49,10 +49,22 @@ def button_callback():
     if(LED_STATE == "RED"):
         time.sleep(5)
     elif(LED_STATE == "BLUE"):
+        # capture the time
         experimentTime = time.time()
         dirName = repoName + "experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/"
         os.mkdir(dirName)
+        
+        # create a new data file inside the new directory and generate column names
+        dataFile = open(dirName+"data.csv", "w")
+        dataFile.write("Time (s), Oxygen (%), pH, Temperature (C), Ammonia (ppm), Ethanol (ppm)\n")
+        dataFile.close()
+        
+        print("Starting Experiment @ "
+              + datetime.datetime.fromtimestamp(experimentTime).strftime('%c')
+              + "\n")
+        
         LED_STATE = "GREEN"
+        
     elif(LED_STATE == "GREEN"):
         LED_STATE = "BLUE"
     elif(LED_STATE == "PURPLE"):
@@ -92,6 +104,9 @@ def main():
     global blue
     global green
     global LED_STATE
+    global sensTime
+    global dataFile
+    global dirName
     
     #########################################
     # INITIAL SETUP
@@ -228,6 +243,8 @@ def main():
                         temperature = splitted[1]
                         valid[2] = 1
                     
+                    sensTime = time.time() - experimentTime
+                    
                     time.sleep(3)
                     
                 # Could not get a valid reading
@@ -247,9 +264,13 @@ def main():
                 print("o2: " + o2 + "%")
                 print("humidity: " + humidity + "%")
                 print("temp: " + temperature + " C")
-                print("ethanol: " + str(ethanol) + " V")
-                print("ammonia: " + str(ammonia) + " V")
+                print("ethanol: " + str(ethanol) + " ppm")
+                print("ammonia: " + str(ammonia) + " ppm")
                 
+                # write the read data to the data file
+                dataFile = open(dirName+"data.csv", "a")
+                dataFile.write("{:.2f},".format(sensTime) + oxygen + "," + pH + "," + humidity + "," + temperature + "," + ammonia + "," + ethanol + "\n")
+                dataFile.close()
                 
             time.sleep(1)
             
