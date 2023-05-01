@@ -334,6 +334,7 @@ def main():
                     plt.title("Current TSAR Activity")
                     ax.legend(["pH", "Oxygen (%)"]);
                     plt.savefig(repoName + 'graph.png')
+                    plt.clf()
                     plt.close()
                 
                 
