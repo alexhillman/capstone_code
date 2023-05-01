@@ -292,8 +292,8 @@ def main():
                     df = pd.read_csv(dirName + 'data.csv')
                     df=df.astype(float)
 
-                    ax = df.plot(x='Time', y=['o2', 'ph'])
-                    ax.set_ylabel("Concentration (PPM)")
+                    ax = df.plot(x='Time (s)', y=['Oxygen (%)', 'pH'])
+                    ax.set_ylabel("Concentration (% and pH)")
                     plt.title("Current TSAR Activity")
                     plt.savefig(repoName + 'graph.png')
                 
