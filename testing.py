@@ -233,8 +233,8 @@ def main():
                 print("o2: " + o2 + "%")
                 print("humidity: " + humidity + "%")
                 print("temp: " + temperature + " C")
-                print("ethanol: " + ethanol + " V")
-                print("ammonia: " + ammonia + " V")
+                print("ethanol: " + str(ethanol) + " V")
+                print("ammonia: " + str(ammonia) + " V")
                 
                 
             time.sleep(1)
