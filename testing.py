@@ -26,7 +26,7 @@ import base64
 from AtlasI2C import(AtlasI2C)
 
 # state machine states
-LED_STATE = 0
+LED_STATE = "NONE"
 
 def button_callback():
     global LED_STATE
@@ -42,6 +42,11 @@ def button_callback():
 def main():
     global dataFile
     global numReads
+    global pH_sensor
+    global o2_sensor
+    global humt_sensor
+    global device_list
+    
     #########################################
     # INITIAL SETUP
     #########################################
@@ -60,8 +65,32 @@ def main():
     
     
     # Ping Each Sensor
+    pH_sensor = AtlasI2C()
+    o2_sensor = AtlasI2C()
+    humt_sensor = AtlasI2C()
     
     # I2C
+    device_list = get_devices()
+    valid = [0, 0, 0]
+    
+    for device in device_list:
+        if(device.address == 99): # pH sensor
+            valid[0] = 1
+            print("pH Sensor Connected")
+        elif(device.address == 108):
+            valid[1] = 1
+            print("O2 Sensor Connected")
+        elif(device.address == 111):
+            valid[2] = 1
+            print("Humidity/Temperature Sensor Connected")
+    
+    if(valid[0] + valid[1] + valid[2] != 3):
+        LED_STATE = "RED"
+        red.on()
+    
+    
+    
+    
     
     
     
