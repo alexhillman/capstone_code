@@ -269,7 +269,7 @@ def main():
                 
                 # write the read data to the data file
                 dataFile = open(dirName+"data.csv", "a")
-                dataFile.write("{:.2f},".format(sensTime) + oxygen + "," + pH + "," + humidity + "," + temperature + "," + ammonia + "," + ethanol + "\n")
+                dataFile.write("{:.2f},".format(sensTime) + o2 + "," + pH + "," + humidity + "," + temperature + "," + ammonia + "," + ethanol + "\n")
                 dataFile.close()
                 
             time.sleep(1)
