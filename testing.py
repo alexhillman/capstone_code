@@ -149,8 +149,8 @@ def main():
         if(LED_STATE == "BLUE"):
             time.sleep(1)
         elif(LED_STATE == "GREEN" or LED_STATE == "PURPLE"):
+            time.sleep(1)
     
-    GPIO.cleanup()
 
 if __name__ == '__main__':
     main()
