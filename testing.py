@@ -10,6 +10,7 @@
 
 # general import statements
 import RPi.GPIO as GPIO
+from gpiozero import Button
 import io
 import sys
 import fcntl
@@ -38,11 +39,8 @@ LED_STATE = 1
 RED = 17
 GREEN = 27
 BLUE = 22
-BUTTON = 24
 
-
-
-def button_callback(channel):
+def button_callback():
     global LED_STATE
     if(LED_STATE == R):
         LED_STATE = G
@@ -77,10 +75,8 @@ def main():
     GPIO.setup(GREEN, GPIO.OUT)
     GPIO.setup(BLUE, GPIO.OUT)
     
-    # set up push button as input with initial value to be pulled low (off)
-    GPIO.setup(BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    # set up the push button event as the falling edge of the voltage (releasing push button)
-    GPIO.add_event_detect(BUTTON, GPIO.FALLING, callback=button_callback, bouncetime = 300)
+    button = Button(24)
+    button.when_pressed = button_callback
     
     GPIO.output(RED,   GPIO.HIGH)
     GPIO.output(GREEN, GPIO.LOW)
