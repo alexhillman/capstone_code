@@ -70,11 +70,47 @@ def button_callback():
         
         LED_STATE = "GREEN"
         
-    elif(LED_STATE == "GREEN"):
+    elif(LED_STATE == "GREEN" or LED_STATE == "PURPLE"):
+        # PUSHING THE CSV DATA
+        ###########################################################################################
+        githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv"
+
+        with open(dirName + "data.csv", "rb") as f:
+            # Encoding "data.csv" to base64 format
+            encodedData = base64.b64encode(f.read())
+
+            headers = {
+                "Authorization": f'''Bearer {githubToken}''',
+                "Content-type": "application/vnd.github+json"
+            }
+            data = {
+                "message": "Experiment Data Upload", # Put your commit message here.
+                "content": encodedData.decode("utf-8")
+            }
+
+            r = requests.put(githubAPIURL, headers=headers, json=data)
+        ###########################################################################################
+        # PUSHING THE IMAGE
+        ###########################################################################################
+        githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/graph.png"
+
+        with open(repoName + "graph.png", "rb") as f:
+            # Encoding "data.csv" to base64 format
+            encodedData = base64.b64encode(f.read())
+
+            headers = {
+                "Authorization": f'''Bearer {githubToken}''',
+                "Content-type": "application/vnd.github+json"
+            }
+            data = {
+                "message": "Experiment Data Upload", # Put your commit message here.
+                "content": encodedData.decode("utf-8")
+            }
+
+            r = requests.put(githubAPIURL, headers=headers, json=data)
+        ###########################################################################################
         LED_STATE = "BLUE"
-    elif(LED_STATE == "PURPLE"):
-        LED_STATE = "BLUE"
-    
+        
         
 def get_devices():
     device = AtlasI2C()
