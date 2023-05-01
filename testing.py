@@ -334,6 +334,7 @@ def main():
                     plt.title("Current TSAR Activity")
                     ax.legend(["pH", "Oxygen (%)"]);
                     plt.savefig(repoName + 'graph.png')
+                    matplotlib.pyplot.close()
                 
                 
                 numReads += 1
