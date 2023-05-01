@@ -188,6 +188,7 @@ def main():
     f=open('/home/pi/Desktop/scripts/access.txt')
     lines=f.readlines()
     githubToken = lines[1]
+    githubToken = strip(githubToken)
     
     ###################################################
     # can start an experiment
@@ -299,7 +300,7 @@ def main():
                 
                 
                 numReads += 1
-                if(numReads == 12):
+                if(numReads == 4):
                     numReads = 0
                     
                     # push data to gitHub
