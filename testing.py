@@ -35,17 +35,10 @@ def button_callback():
         time.sleep(5)
     elif(LED_STATE == "BLUE"):
         LED_STATE == "GREEN"
-        blue.off()
-        green.on()
     elif(LED_STATE == "GREEN"):
         LED_STATE == "BLUE"
-        green.off()
-        blue.on()
     elif(LED_STATE == "PURPLE"):
         LED_STATE == "BLUE"
-        blue.off()
-        red.off()
-        green.on()
     
         
         
@@ -132,7 +125,6 @@ def main():
         # if all 3 sensors successful then stop looping
         if(valid[0] + valid[1] + valid[2] == 3):
             LED_STATE = "BLUE"
-            blue.on()
             break
         else:
             print("Error finding Atlas Sensors. Trying Again\n")
@@ -148,8 +140,19 @@ def main():
     while True:
         if(LED_STATE == "BLUE"):
             time.sleep(1)
+            red.off()
+            green.off()
+            blue.on()
         elif(LED_STATE == "GREEN" or LED_STATE == "PURPLE"):
             time.sleep(1)
+            if(LED_STATE == "GREEN"):
+                red.off()
+                green.on()
+                blue.off()
+            else:
+                red.on()
+                green.off()
+                blue.on()
     
 
 if __name__ == '__main__':
