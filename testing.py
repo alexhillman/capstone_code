@@ -344,6 +344,9 @@ def main():
                     
                     subprocess.call("git add " + dirName + "/data.csv", shell = True)
                     subprocess.call("git add " + "graph.png", shell = True)
+                    subprocess.call("git config --global user.email \"tsar.23042@gmail.com\"", shell = True)
+                    subprocess.call("git config --global user.name \"TSAR CAPSTONE\"", shell = True)
+
                     subprocess.call("git commit -m \"Data Upload\"", shell = True)
                     subprocess.call("git push https://TSAR-23042-1:" + githubToken + "@github.com/TSAR-23042-1/TSAR-main.git", shell = True)
                     
