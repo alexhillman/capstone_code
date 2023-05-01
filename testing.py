@@ -176,7 +176,7 @@ def main():
                 # it's been 15 minutes: conduct a read
                 print("READ SENSORS")
                 
-            sleep(1)
+            time.sleep(1)
             
             
     
