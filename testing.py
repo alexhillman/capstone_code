@@ -289,7 +289,7 @@ def main():
                 
                 
                     # update the plot
-                    df = pd.read_csv(dirName + 'data.csv')
+                    df = pd.read_csv(dirName + 'data.csv', header=0, delim_whitespace = True)
                     df=df.astype(float)
 
                     ax = df.plot(x='Time (s)', y=['Oxygen (%)', 'pH'])
