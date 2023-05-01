@@ -146,7 +146,7 @@ def main():
     time_next = time_start + time_index * time_interval
 
     # can start an experiment
-    while True
+    while True:
         if(LED_STATE == "BLUE"):
             red.off()
             green.off()
