@@ -141,7 +141,7 @@ def main():
     
    
     time_index=0
-    time_interval = datetime.timedelta(minutes=3)   # HOW OFTEN TO READ DATA
+    time_interval = datetime.timedelta(seconds=30)   # HOW OFTEN TO READ DATA
     time_start = datetime.datetime.now()
     time_next = time_start + time_index * time_interval
 
