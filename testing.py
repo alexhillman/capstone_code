@@ -38,7 +38,7 @@ numReads = 0
 
 def button_callback():
     global LED_STATE
-    global experiment_time
+    global experimentTime
     global dataFile
     global repoName
     global dirName
