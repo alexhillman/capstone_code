@@ -9,7 +9,8 @@
 #
 
 # general import statements
-import gpiozero
+from gpiozero import Button
+from gpiozero import LED
 import io
 import sys
 import fcntl
