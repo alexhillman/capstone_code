@@ -183,7 +183,7 @@ def main():
                     # read pH
                     pH_sensor.write("R")
                     time.sleep(pH_sensor.long_timeout)
-                    pH_read = pH_sensor.read.split(' ')
+                    pH_read = pH_sensor.read().split(' ')
                 
                     if(pH_read[0] == "Success"):
                         pH = pH_read[4]
@@ -192,7 +192,7 @@ def main():
                     # read o2
                     o2_sensor.write("R")
                     time.sleep(o2_sensor.long_timeout)
-                    o2_read = o2_sensor.read.split(' ')
+                    o2_read = o2_sensor.read().split(' ')
                     
                     if(o2_read[0] == "Success"):
                         o2 = o2_read[4]
@@ -201,7 +201,7 @@ def main():
                     # read humidity and temp
                     humt_sensor.write("R")
                     time.sleep(humt.long_timeout)
-                    humt_read = humt_sensor.read.split(' ')
+                    humt_read = humt_sensor.read().split(' ')
                     
                     if(humt_read[0] == "Success"):
                         splitted = humt_read[4].split('\'')
