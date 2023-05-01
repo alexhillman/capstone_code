@@ -90,24 +90,28 @@ def main():
     o2_sensor = AtlasI2C()
     humt_sensor = AtlasI2C()
     
-    # I2C
-    device_list = get_devices()
-    valid = [0, 0, 0]
-    
     # try to inialize the devices 5 times
     i = 0
     while i < 5:
         i += 1
+        
+        # I2C
+        device_list = get_devices()
+        valid = [0, 0, 0]
+        
         # check all I2C devices
         for device in device_list:
             if(device.address == 99): # pH sensor
                 valid[0] = 1
+                pH_sensor = device
                 print("pH Sensor Connected")
             elif(device.address == 108):
                 valid[1] = 1
+                o2_sensor = device
                 print("O2 Sensor Connected")
             elif(device.address == 111):
                 valid[2] = 1
+                humt_sensor = device
                 print("Humidity/Temperature Sensor Connected")
         
         # if all 3 sensors successful then stop looping
