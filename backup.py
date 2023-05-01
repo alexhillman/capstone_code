@@ -220,8 +220,12 @@ def main():
     time_start = datetime.datetime.now()
     time_next = time_start + time_index * time_interval
 
+    f=open('access.txt')
+    lines=f.readlines()
+    splitted = lines[1]
+    githubToken = splitted.strip()
     
-
+    print("Password: -- " + githubToken + " -- ")
     
     ###################################################
     # can start an experiment
