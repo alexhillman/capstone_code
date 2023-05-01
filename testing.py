@@ -295,6 +295,7 @@ def main():
 
                     ax = df.plot(x='Time(s)', y=['Oxygen(%)', 'pH'])
                     ax.set_ylabel("Concentration (% and pH)")
+                    ax.legend(["Oxygen (%, orange)", "pH (blue)"]);
                     plt.title("Current TSAR Activity")
                     plt.savefig(repoName + 'graph.png')
                 
