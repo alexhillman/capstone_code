@@ -61,7 +61,7 @@ def button_callback():
         
         # create a new data file inside the new directory and generate column names
         dataFile = open(dirName+"data.csv", "w")
-        dataFile.write("Time(s),Oxygen(%),pH,Temperature(C),Ammonia(ppm),Ethanol(ppm)\n")
+        dataFile.write("Time(s),Oxygen(%),pH,Humidity(%),Temperature(C),Ammonia(ppm),Ethanol(ppm)\n")
         dataFile.close()
         
         print("Starting Experiment @ "
