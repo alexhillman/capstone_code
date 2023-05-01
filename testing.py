@@ -9,8 +9,7 @@
 #
 
 # general import statements
-import RPi.GPIO as GPIO
-from gpiozero import Button
+import gpiozero
 import io
 import sys
 import fcntl
@@ -24,39 +23,20 @@ import requests
 import base64
 
 # Atlas Scientific I2C control library (included in same directory)
-#from AtlasI2C import(AtlasI2C)
+from AtlasI2C import(AtlasI2C)
 
 # state machine states
-START = 1
-STOP = 0
-
-R = 1
-G = 2
-B = 3
-LED_STATE = 1
-
-# global variables and GPIO pins
-RED = 17
-GREEN = 27
-BLUE = 22
+LED_STATE = 0
 
 def button_callback():
     global LED_STATE
-    if(LED_STATE == R):
-        LED_STATE = G
-        GPIO.output(RED,   GPIO.LOW)
-        GPIO.output(GREEN, GPIO.HIGH)
-        GPIO.output(BLUE,  GPIO.LOW)
-    elif(LED_STATE == G):
-        LED_STATE = B
-        GPIO.output(RED,   GPIO.HIGH)
-        GPIO.output(GREEN, GPIO.LOW)
-        GPIO.output(BLUE,  GPIO.HIGH)
-    elif(LED_STATE == B):
-        LED_STATE = R
-        GPIO.output(RED,   GPIO.LOW)
-        GPIO.output(GREEN, GPIO.LOW)
-        GPIO.output(BLUE,  GPIO.HIGH)
+    if(LED_STATE == "RED"):
+        time.sleep(5)
+    if(LED_STATE == "BLUE"):
+        LED_STATE == "GREEN")
+        
+        
+        
 
 # main program loop
 def main():
@@ -67,20 +47,27 @@ def main():
     #########################################
     
     # initialize GPIO inputs and outputs
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-
-    # setup LEDs as outputs
-    GPIO.setup(RED, GPIO.OUT)
-    GPIO.setup(GREEN, GPIO.OUT)
-    GPIO.setup(BLUE, GPIO.OUT)
+    red   = LED(17) # GPIO17
+    green = LED(27) # GPIO27
+    blue  = LED(22) # GPIO22
     
-    button = Button(24)
+    red.off()
+    green.off()
+    blue.off()
+    
+    button = Button(24) # GPIO24
     button.when_pressed = button_callback
     
-    GPIO.output(RED,   GPIO.HIGH)
-    GPIO.output(GREEN, GPIO.LOW)
-    GPIO.output(BLUE,  GPIO.LOW)
+    
+    # Ping Each Sensor
+    
+    # I2C
+    
+    
+    
+    
+    
+    
     
     while True:
         time.sleep(0.1)
