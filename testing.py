@@ -11,6 +11,8 @@
 # general import statements
 from gpiozero import Button
 from gpiozero import LED
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
 import io
 import sys
 import fcntl
@@ -81,6 +83,10 @@ def main():
     #########################################
     # INITIAL SETUP
     #########################################
+    
+    SPI_PORT = 0
+    SPI_DEVICE = 0
+    mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
     
     # initialize GPIO inputs and outputs
     red   = LED(17) # GPIO17
@@ -219,11 +225,16 @@ def main():
                     humidity = '' 
                     temperature = '' # remove data point
                 
+                ethanol = mcp.read_adc(0)
+                ammonia = mcp.read_adc(1)
+                
                 print("Read the following values:")
                 print("pH: " + pH)
                 print("o2: " + o2 + "%")
                 print("humidity: " + humidity + "%")
                 print("temp: " + temperature + " C")
+                print("ethanol: " + ethanol + " V")
+                print("ammonia: " + ammonia + " V")
                 
                 
             time.sleep(1)
