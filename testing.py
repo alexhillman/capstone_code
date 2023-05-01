@@ -188,7 +188,7 @@ def main():
     f=open('/home/pi/Desktop/scripts/access.txt')
     lines=f.readlines()
     githubToken = lines[1]
-    githubToken = strip(githubToken)
+    githubToken = githubToken.strip()
     
     ###################################################
     # can start an experiment
