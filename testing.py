@@ -144,12 +144,11 @@ def main():
     while True:
         print("Checking LED State")
         if(LED_STATE == "BLUE"):
-            time.sleep(1)
             red.off()
             green.off()
             blue.on()
+            time.sleep(0.1)
         elif(LED_STATE == "GREEN" or LED_STATE == "PURPLE"):
-            time.sleep(1)
             if(LED_STATE == "GREEN"):
                 red.off()
                 green.on()
@@ -158,6 +157,7 @@ def main():
                 red.on()
                 green.off()
                 blue.on()
+                time.sleep(0.1)
     
 
 if __name__ == '__main__':
