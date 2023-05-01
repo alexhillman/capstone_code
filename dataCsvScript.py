@@ -3,12 +3,18 @@ import requests
 # Import the base64 module for encoding a file to base64
 import base64
 
-githubAPIURL = "https://api.github.com/repos/fmalrs/23042prototype/contents/experiments/experiment_TEST_SCRIPT/data.csv"
+f=open('access.txt')
+lines=f.readlines()
+
+#githubAPIURL = "https://api.github.com/repos/fmalrs/23042prototype/contents/experiments/experiment_TEST_SCRIPT/data.csv"
+githubAPIURL = lines[3]
 # Replace "bracketcounters" with your username, replace "test-repo" with your repository name and replace "new-image.png" with the filename you want to upload from local to GitHub.
 
 # change access.txt to update github access file
-with open('access.txt', 'r') as file:
-    githubToken = file.read()
+#with open('access.txt', 'r') as file:
+ #   githubToken = file.read()
+    
+githubToken = lines[0]
     
 
 
