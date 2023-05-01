@@ -342,8 +342,14 @@ def main():
                 if(numReads == 2):
                     numReads = 0
                     
+                    readFile = open(repoName +"README.md", "a")
+                    readFile.write(" ")
+                    readFile.close()
+                    
+                    
                     subprocess.call("git add " + dirName + "/data.csv", shell = True)
                     subprocess.call("git add " + "graph.png", shell = True)
+                    subprocess.call("git add " + "README.md", shell = True)
                     subprocess.call("git config --global user.email \"tsar.23042@gmail.com\"", shell = True)
                     subprocess.call("git config --global user.name \"TSAR CAPSTONE\"", shell = True)
 
