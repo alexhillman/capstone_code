@@ -339,14 +339,13 @@ def main():
                 
                 
                 numReads += 1
-                if(numReads == 5):
+                if(numReads == 2):
                     numReads = 0
                     
-                    subprocess.call("cd /home/pi/Desktop/TSAR-main")
-                    subprocess.call("git add " + "experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv")
-                    subprocess.call("git add " + "graph.png")
-                    subprocess.call("git commit -m \"Data Upload\"")
-                    subprocess.call("git push https://TSAR-23042-1:" + githubToken + "@github.com/TSAR-23042-1/TSAR-main.git")
+                    subprocess.call("git add " + dirName + "/data.csv", shell = True)
+                    subprocess.call("git add " + "graph.png", shell = True)
+                    subprocess.call("git commit -m \"Data Upload\"", shell = True)
+                    subprocess.call("git push https://TSAR-23042-1:" + githubToken + "@github.com/TSAR-23042-1/TSAR-main.git", shell = True)
                     
                                  
             time.sleep(1)
