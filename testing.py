@@ -104,7 +104,7 @@ def main():
     
     # try to inialize the devices 5 times
     i = 0
-    while i < 5:
+    while i < 10:
         i += 1
         
         # I2C
@@ -141,16 +141,12 @@ def main():
     
    
     time_index=0
-    time_interval = datetime.timedelta(seconds=10)
+    time_interval = datetime.timedelta(minutes=3)   # HOW OFTEN TO READ DATA
     time_start = datetime.datetime.now()
     time_next = time_start + time_index * time_interval
 
     # can start an experiment
-    while True:
-        
-        
-        
-        
+    while True
         if(LED_STATE == "BLUE"):
             red.off()
             green.off()
@@ -173,8 +169,62 @@ def main():
                 time_index = time_index+1
                 time_next = time_start + time_index *time_interval
                 
-                # it's been 15 minutes: conduct a read
-                print("READ SENSORS")
+                # it's been 15 minutes: try conducting read until all successes
+                valid = [0,0,0]
+                pH = 0
+                o2 = 0
+                humidity = 0
+                temperature = 0
+                i = 0
+
+                while(valid[0] + valid[1] + valid[2] != 3 and i < 10):
+                    i += 1
+                    valid = [0,0,0]
+                    # read pH
+                    pH_sensor.write("R")
+                    time.sleep(pH_sensor.long_timeout)
+                    pH_read = pH_sensor.read.split(' ')
+                
+                    if(pH_read[0] == "Success"):
+                        pH = pH_read[4]
+                        valid[0] = 1
+                    
+                    # read o2
+                    o2_sensor.write("R")
+                    time.sleep(o2_sensor.long_timeout)
+                    o2_read = o2_sensor.read.split(' ')
+                    
+                    if(o2_read[0] == "Success"):
+                        o2 = o2_read[4]
+                        valid[1] = 1
+                        
+                    # read humidity and temp
+                    humt_sensor.write("R")
+                    time.sleep(humt.long_timeout)
+                    humt_read = humt_sensor.read.split(' ')
+                    
+                    if(humt_read[0] == "Success"):
+                        splitted = humt_read[4].split('\'')
+                        humidity = splitted[0]
+                        temperature = splitted[1]
+                        valid[2] = 1
+                    
+                    time.sleep(3)
+                    
+                # Could not get a valid reading
+                if(i == 10):
+                    LED_STATE = "PURPLE" # indicate to researcher minor error
+                    pH = ''
+                    o2 = ''
+                    humidity = '' 
+                    temperature = '' # remove data point
+                
+                print("Read the following values:")
+                print("pH: " + pH)
+                print("o2: " + o2 + "%")
+                print("humidity: " + humidity + "%")
+                print("temp: " + temperature + " C")
+                
                 
             time.sleep(1)
             
