@@ -11,7 +11,6 @@
 # general import statements
 from gpiozero import Button
 from gpiozero import LED
-from git import Repo
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import io
@@ -43,17 +42,6 @@ githubToken = 0
 githubAPIURL = 0
 
 # github setup
-# Read Github API Token
-f=open('/home/pi/Desktop/scripts/access.txt')
-lines=f.readlines()
-githubToken = lines[1]
-githubToken = githubToken.strip()
-
-full_local_path = "/home/pi/Desktop/TSAR-main"
-username = "TSAR-23042-1"
-password = githubToken
-remote   = f"https://{username}:{password}@github.com/TSAR-23042-1/TSAR-main.git"
-repo = Repo(repoName)
 
 def button_callback():
     global LED_STATE
@@ -146,7 +134,6 @@ def get_devices():
 # main program loop
 def main():
     global dataFile
-    global repo
     global numReads
     global pH_sensor
     global o2_sensor
@@ -352,12 +339,44 @@ def main():
                 if(numReads == 4):
                     numReads = 0
                     
-                    # push data to gitHub
-                    repo.git.add("experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv")
-                    repo.git.add("graph.png")
-                    repo.index.commit("Experiment Data Upload")
-                    origin = repo.remote(name="origin")
-                    origin.push()
+                    # PUSHING THE CSV DATA
+                    ###########################################################################################
+                    githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv"
+
+                    with open(dirName + "data.csv", "rb") as f:
+                        # Encoding "data.csv" to base64 format
+                        encodedData = base64.b64encode(f.read())
+
+                        headers = {
+                            "Authorization": f'''Bearer {githubToken}''',
+                            "Content-type": "application/vnd.github+json"
+                        }
+                        data = {
+                            "message": "Experiment Data Upload", # Put your commit message here.
+                            "content": encodedData.decode("utf-8")
+                        }
+
+                        r = requests.put(githubAPIURL, headers=headers, json=data)
+                    ###########################################################################################
+                    # PUSHING THE IMAGE
+                    ###########################################################################################
+                    githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/graph.png"
+
+                    with open(repoName + "graph.png", "rb") as f:
+                        # Encoding "data.csv" to base64 format
+                        encodedData = base64.b64encode(f.read())
+
+                        headers = {
+                            "Authorization": f'''Bearer {githubToken}''',
+                            "Content-type": "application/vnd.github+json"
+                        }
+                        data = {
+                            "message": "Experiment Data Upload", # Put your commit message here.
+                            "content": encodedData.decode("utf-8")
+                        }
+
+                        r = requests.put(githubAPIURL, headers=headers, json=data)
+                    ###########################################################################################
                     
                     
                     ###########################################################################################                
