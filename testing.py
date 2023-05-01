@@ -33,8 +33,20 @@ def button_callback():
     global LED_STATE
     if(LED_STATE == "RED"):
         time.sleep(5)
-    if(LED_STATE == "BLUE"):
+    elif(LED_STATE == "BLUE"):
         LED_STATE == "GREEN"
+        blue.off()
+        green.on()
+    elif(LED_STATE == "GREEN"):
+        LED_STATE == "BLUE"
+        green.off()
+        blue.on()
+    elif(LED_STATE == "PURPLE"):
+        LED_STATE == "BLUE"
+        blue.off()
+        red.off()
+        green.on()
+    
         
         
         
@@ -65,6 +77,9 @@ def main():
     global o2_sensor
     global humt_sensor
     global device_list
+    global red
+    global blue
+    global green
     
     #########################################
     # INITIAL SETUP
@@ -117,6 +132,7 @@ def main():
         # if all 3 sensors successful then stop looping
         if(valid[0] + valid[1] + valid[2] == 3):
             LED_STATE = "BLUE"
+            blue.on()
             break
         else:
             print("Error finding Atlas Sensors. Trying Again\n")
@@ -127,11 +143,12 @@ def main():
         LED_STATE = "RED"
         red.on()
     
-    
-    
-    
+   
+    # can start an experiment
     while True:
-        time.sleep(0.1)
+        if(LED_STATE == "BLUE"):
+            time.sleep(1)
+        elif(LED_STATE == "GREEN" || LED_STATE == "PURPLE"):
     
     GPIO.cleanup()
 
