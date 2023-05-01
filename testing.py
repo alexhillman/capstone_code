@@ -141,6 +141,7 @@ def main():
    
     # can start an experiment
     while True:
+        print("Checking LED State")
         if(LED_STATE == "BLUE"):
             time.sleep(1)
             red.off()
