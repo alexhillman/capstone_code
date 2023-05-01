@@ -185,7 +185,7 @@ def main():
 
     
     # Read Github API Token
-    f=open('access.txt')
+    f=open('/home/pi/Desktop/scripts/access.txt')
     lines=f.readlines()
     githubToken = lines[1]
     
