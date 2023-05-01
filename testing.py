@@ -200,7 +200,7 @@ def main():
                         
                     # read humidity and temp
                     humt_sensor.write("R")
-                    time.sleep(humt.long_timeout)
+                    time.sleep(humt_sensor.long_timeout)
                     humt_read = humt_sensor.read().split(' ')
                     
                     if(humt_read[0] == "Success"):
