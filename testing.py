@@ -283,13 +283,13 @@ def main():
                 # write the read data to the data file
                 if(i < 10):
                     dataFile = open(dirName+"data.csv", "a")
-                    dataFile.write("{:.1f} , ".format(sensTime) + o2 + " , " + pH + " , " + humidity + " , " + temperature + " , " + str(ammonia) + " , " + str(ethanol) + "\n")
+                    dataFile.write("{:.1f}, ".format(sensTime) + o2 + ", " + pH + ", " + humidity + ", " + temperature + ", " + str(ammonia) + ", " + str(ethanol) + "\n")
                     dataFile.close()
                 
                 
                 
                     # update the plot
-                    df = pd.read_csv(dirName + 'data.csv', header=0, delim_whitespace = True)
+                    df = pd.read_csv(dirName + 'data.csv', header=0)
                     df=df.astype(float)
 
                     ax = df.plot(x='Time (s)', y=['Oxygen (%)', 'pH'])
