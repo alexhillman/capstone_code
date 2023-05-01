@@ -140,9 +140,17 @@ def main():
         red.on()
     
    
+    time_index=0
+    time_interval = datetime.timedelta(seconds=10)
+    time_start = datetime.datetime.now()
+    time_next = time_start + time_index * time_interval
+
     # can start an experiment
     while True:
-        print("Checking LED State")
+        
+        
+        
+        
         if(LED_STATE == "BLUE"):
             red.off()
             green.off()
@@ -158,6 +166,19 @@ def main():
                 green.off()
                 blue.on()
                 time.sleep(0.1)
+                
+            # Read all Sensors
+            time_now = datetime.datetime.now()
+            if(time_now>=time_next):
+                time_index = time_index+1
+                time_next = time_start + time_index *time_interval
+                
+                # it's been 15 minutes: conduct a read
+                print("READ SENSORS")
+                
+            sleep(1)
+            
+            
     
 
 if __name__ == '__main__':
