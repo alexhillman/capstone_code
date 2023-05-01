@@ -83,7 +83,9 @@ def main():
     button.when_pressed = button_callback
     
     
-    # Ping Each Sensor
+    ########################
+    #   PING SENSORS
+    ########################
     pH_sensor = AtlasI2C()
     o2_sensor = AtlasI2C()
     humt_sensor = AtlasI2C()
@@ -92,27 +94,34 @@ def main():
     device_list = get_devices()
     valid = [0, 0, 0]
     
-    for device in device_list:
-        if(device.address == 99): # pH sensor
-            valid[0] = 1
-            print("pH Sensor Connected")
-        elif(device.address == 108):
-            valid[1] = 1
-            print("O2 Sensor Connected")
-        elif(device.address == 111):
-            valid[2] = 1
-            print("Humidity/Temperature Sensor Connected")
+    # try to inialize the devices 5 times
+    i = 0
+    while i < 5:
+        i += 1
+        # check all I2C devices
+        for device in device_list:
+            if(device.address == 99): # pH sensor
+                valid[0] = 1
+                print("pH Sensor Connected")
+            elif(device.address == 108):
+                valid[1] = 1
+                print("O2 Sensor Connected")
+            elif(device.address == 111):
+                valid[2] = 1
+                print("Humidity/Temperature Sensor Connected")
+        
+        # if all 3 sensors successful then stop looping
+        if(valid[0] + valid[1] + valid[2] == 3):
+            LED_STATE = "BLUE"
+            break
+        else:
+            print("Error finding Atlas Sensors. Trying Again\n")
     
-    if(valid[0] + valid[1] + valid[2] != 3):
+    
+    # if valid[] is still not 3, could not ping all 3 sensors
+    if(valid[0] + valid[1] + valid[2] != 3): 
         LED_STATE = "RED"
         red.on()
-    
-    
-    
-    
-    
-    
-    
     
     
     
