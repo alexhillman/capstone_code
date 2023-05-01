@@ -76,41 +76,19 @@ def button_callback():
     elif(LED_STATE == "GREEN" or LED_STATE == "PURPLE"):
         # PUSHING THE CSV DATA
         ###########################################################################################
-        githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/experiments/experiment_" + time.strftime("%Y-%m-%d_%H-%M", time.gmtime(experimentTime)) + "/data.csv"
+        readFile = open(repoName +"README.md", "a")
+        readFile.write(" ")
+        readFile.close()
 
-        with open(dirName + "data.csv", "rb") as f:
-            # Encoding "data.csv" to base64 format
-            encodedData = base64.b64encode(f.read())
 
-            headers = {
-                "Authorization": f'''Bearer {githubToken}''',
-                "Content-type": "application/vnd.github+json"
-            }
-            data = {
-                "message": "Experiment Data Upload", # Put your commit message here.
-                "content": encodedData.decode("utf-8")
-            }
+        subprocess.call("git add " + dirName + "/data.csv", shell = True)
+        subprocess.call("git add " + "graph.png", shell = True)
+        subprocess.call("git add " + "README.md", shell = True)
+        subprocess.call("git config --global user.email \"tsar.23042@gmail.com\"", shell = True)
+        subprocess.call("git config --global user.name \"TSAR CAPSTONE\"", shell = True)
 
-            r = requests.put(githubAPIURL, headers=headers, json=data)
-        ###########################################################################################
-        # PUSHING THE IMAGE
-        ###########################################################################################
-        githubAPIURL = "https://api.github.com/repos/TSAR-23042-1/TSAR-main/contents/graph.png"
-
-        with open(repoName + "graph.png", "rb") as f:
-            # Encoding "data.csv" to base64 format
-            encodedData = base64.b64encode(f.read())
-
-            headers = {
-                "Authorization": f'''Bearer {githubToken}''',
-                "Content-type": "application/vnd.github+json"
-            }
-            data = {
-                "message": "Experiment Data Upload", # Put your commit message here.
-                "content": encodedData.decode("utf-8")
-            }
-
-            r = requests.put(githubAPIURL, headers=headers, json=data)
+        subprocess.call("git commit -m \"Data Upload\"", shell = True)
+        subprocess.call("git push https://TSAR-23042-1:" + githubToken + "@github.com/TSAR-23042-1/TSAR-main.git", shell = True)
         ###########################################################################################
         LED_STATE = "BLUE"
         
