@@ -336,7 +336,7 @@ def main():
                 
                 
                 numReads += 1
-                if(numReads == 4):
+                if(numReads > 3):
                     numReads = 0
                     
                     # PUSHING THE CSV DATA
