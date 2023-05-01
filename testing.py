@@ -32,6 +32,7 @@ LED_STATE = "NONE"
 def button_callback():
     global LED_STATE
     print("you pushed the button")
+    time.sleep(0.3)
     
     if(LED_STATE == "RED"):
         time.sleep(5)
