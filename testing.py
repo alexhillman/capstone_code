@@ -31,6 +31,8 @@ LED_STATE = "NONE"
 
 def button_callback():
     global LED_STATE
+    print("you pushed the button")
+    
     if(LED_STATE == "RED"):
         time.sleep(5)
     elif(LED_STATE == "BLUE"):
