@@ -204,7 +204,7 @@ def main():
                     humt_read = humt_sensor.read().split(' ')
                     
                     if(humt_read[0] == "Success"):
-                        splitted = humt_read[4].split('\'')
+                        splitted = humt_read[4].split(',')
                         humidity = splitted[0]
                         temperature = splitted[1]
                         valid[2] = 1
