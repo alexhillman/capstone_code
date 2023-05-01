@@ -226,8 +226,8 @@ def main():
                     temperature = '' # remove data point
                 
                 # MQ accuracy is debatable after extensive humidity/high gas/temp testing - see Final Report for more.
-                ethanol = int(abs((mcp.read_adc(0) - 450) * 1.4)))
-                ammonia = int(abs((mcp.read_adc(1) - 40) * 5)))
+                ethanol = int(abs((mcp.read_adc(0) - 450) * 1.4))
+                ammonia = int(abs((mcp.read_adc(1) - 40) * 5))
                 
                 print("Read the following values:")
                 print("pH: " + pH)
